@@ -23,14 +23,14 @@ namespace BllLayer.Factory.Repositories
 
         public IAlbumBll AlbumBll
         {
-            get { return _albumBll ?? (_albumBll = new AlbumBll()); }
+            get { return _albumBll ?? (_albumBll = new AlbumBll(_dalFactory)); }
         }
 
         private ITrackBll _trackBll;
 
         public ITrackBll TrackBll
         {
-            get { return _trackBll ?? (_trackBll = new TrackBll()); }
+            get { return _trackBll ?? (_trackBll = new TrackBll(_dalFactory)); }
         }
     }
 }

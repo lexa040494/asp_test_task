@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Dependency;
 
 namespace Web
 {
@@ -9,16 +10,18 @@ namespace Web
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            config.EnsureInitialized();
 
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional, action = RouteParameter.Optional }
             );
+
+            config.DependencyResolver = new DependencyRegistr.UnityResolver(DependencyRegistr.RegisterComponents());
         }
     }
 }
