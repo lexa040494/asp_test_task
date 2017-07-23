@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,14 +43,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Automapper\AutoMapperConfiguration.cs" />
+    <Compile Include="Automapper\Profiles\AlbumMappingProfile.cs" />
+    <Compile Include="Automapper\Profiles\TrackMappingProfile.cs" />
+    <Compile Include="Factory\Interfaces\IBllFactory.cs" />
+    <Compile Include="Factory\Repositories\BllFactory.cs" />
+    <Compile Include="Interfaces\IAlbumBll.cs" />
+    <Compile Include="Interfaces\ITrackBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AlbumBll.cs" />
+    <Compile Include="Repositories\TrackBll.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DalLayer\DalLayer.csproj">
+      <Project>{7BABBCCF-AC21-4758-A8AF-C03D77D8069B}</Project>
+      <Name>DalLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{ee868293-2df1-4174-a5de-0b7b304ca527}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
+      <Project>{fbbf5b8c-73ae-41c8-9e41-c02a1750f522}</Project>
+      <Name>ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Automapper\" />
-    <Folder Include="Factory\Interfaces\" />
-    <Folder Include="Factory\Repositories\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Repositories\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
