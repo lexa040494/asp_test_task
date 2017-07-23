@@ -16,7 +16,7 @@ namespace Model
     {
         public decimal Id { get; set; }
         public string Name { get; set; }
-        public string Performer { get; set; }
+        public string Artist { get; set; }
         public Nullable<System.TimeSpan> Duration { get; set; }
         public decimal AlbumId { get; set; }
     

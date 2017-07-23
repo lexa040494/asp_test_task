@@ -6,8 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="eb5c7fe997ff401e96cdcfa6e3c87afb" Name="Diagram1">
         <EntityTypeShape EntityType="AlbumCatalogDbModel.Album" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlbumCatalogDbModel.Track" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <AssociationConnector Association="AlbumCatalogDbModel.FK_dbo_Track_dbo_Album_AlbumId" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AlbumCatalogDbModel.Track" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="AlbumCatalogDbModel.FK_dbo_Track_dbo_Album_AlbumId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

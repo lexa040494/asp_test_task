@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AlbumCatalogDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AlbumCatalogDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Album">
           <Key>
             <PropertyRef Name="Id" />
@@ -17,9 +17,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="decimal" Precision="10" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Performer" Type="nvarchar" MaxLength="50" />
+          <Property Name="Artist" Type="nvarchar" MaxLength="50" />
           <Property Name="Duration" Type="time" Precision="7" />
           <Property Name="AlbumId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
         </EntityType>
@@ -43,8 +43,7 @@
             <End Role="Track" EntitySet="Track" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AlbumCatalogDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -55,22 +54,30 @@
           <Property Name="Id" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Year" Type="Int32" />
-          <NavigationProperty Name="Track" Relationship="Self.FK_dbo_Track_dbo_Album_AlbumId" FromRole="Album" ToRole="Track" />
+          <NavigationProperty Name="Track" Relationship="AlbumCatalogDbModel.FK_dbo_Track_dbo_Album_AlbumId" FromRole="Album" ToRole="Track" />
         </EntityType>
+        <EntityContainer Name="AlbumCatalogDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Album" EntityType="Self.Album" />
+          <EntitySet Name="Track" EntityType="AlbumCatalogDbModel.Track" />
+          <AssociationSet Name="FK_dbo_Track_dbo_Album_AlbumId" Association="AlbumCatalogDbModel.FK_dbo_Track_dbo_Album_AlbumId">
+            <End Role="Album" EntitySet="Album" />
+            <End Role="Track" EntitySet="Track" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Track">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Performer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Artist" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Duration" Type="Time" Precision="7" />
-          <Property Name="AlbumId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
-          <NavigationProperty Name="Album" Relationship="Self.FK_dbo_Track_dbo_Album_AlbumId" FromRole="Track" ToRole="Album" />
+          <Property Name="AlbumId" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <NavigationProperty Name="Album" Relationship="AlbumCatalogDbModel.FK_dbo_Track_dbo_Album_AlbumId" FromRole="Track" ToRole="Album" />
         </EntityType>
         <Association Name="FK_dbo_Track_dbo_Album_AlbumId">
-          <End Role="Album" Type="Self.Album" Multiplicity="1" />
-          <End Role="Track" Type="Self.Track" Multiplicity="*" />
+          <End Type="AlbumCatalogDbModel.Album" Role="Album" Multiplicity="1" />
+          <End Type="AlbumCatalogDbModel.Track" Role="Track" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Album">
               <PropertyRef Name="Id" />
@@ -80,14 +87,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AlbumCatalogDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Album" EntityType="Self.Album" />
-          <EntitySet Name="Track" EntityType="Self.Track" />
-          <AssociationSet Name="FK_dbo_Track_dbo_Album_AlbumId" Association="Self.FK_dbo_Track_dbo_Album_AlbumId">
-            <End Role="Album" EntitySet="Album" />
-            <End Role="Track" EntitySet="Track" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -106,11 +105,11 @@
           <EntitySetMapping Name="Track">
             <EntityTypeMapping TypeName="AlbumCatalogDbModel.Track">
               <MappingFragment StoreEntitySet="Track">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Performer" ColumnName="Performer" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="AlbumId" ColumnName="AlbumId" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
