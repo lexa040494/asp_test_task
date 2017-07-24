@@ -1,0 +1,27 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Создание нового альбома</h3>
+</div>
+
+<form role="form" name="storeForm" ng-submit="saveAlbum()">
+    <div class="modal-body">
+        <h5>Альбом:</h5>
+        <div>
+            <input type="text" placeholder="Название альбома" ng-model="currentAlbum.Name" />
+            <input type="number" placeholder="Год выпуска" ng-model="currentAlbum.Year" />
+        </div>
+        <h5>Треки:</h5>
+        <div ng-repeat="track in currentAlbum.Tracks">
+            <input type="text" placeholder="Название трека" ng-model="track.Name" />
+            <input type="text" placeholder="Имя артиста"  ng-model="track.Artist" />
+            <input type="time" placeholder="Продолжительность" ng-model="track.Duration" step="1" />
+            <button class="btn btn-danger" ng-click="removeTrack(track)">Удилить</button>
+        </div>
+        <div>
+            <button type="button" class="btn" ng-click="newTrack()">Новый трек</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <button type="button" class="btn btn-warning" ng-click="canselModal()">Отмена</button>
+    </div>
+</form>
