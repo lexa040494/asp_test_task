@@ -22,3 +22,31 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.grid-msg-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.grid-msg-overlay .msg {
+    opacity: 1;
+    position: absolute;
+    top: 35%;
+    left: 40%;
+    width: 200px;
+    height: 75px;
+    background-color: #eee;
+    border-radius: 4px;
+    border: 1px solid #555;
+    text-align: center;
+    font-size: 12px;
+    display: table;
+}
+
+.grid-msg-overlay .msg span {
+    display: table-cell;
+    vertical-align: middle;
+}

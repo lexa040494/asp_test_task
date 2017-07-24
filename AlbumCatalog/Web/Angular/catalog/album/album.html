@@ -1,1 +1,16 @@
-﻿<p>Test album page!!!!</p>
+﻿<div class="portlet">
+    <div id="portlet" class="portlet-content" ui-grid-auto-resize ui-grid-expandable style="max-height: 500px" ui-grid="gridAlbum">
+        <div class="grid-msg-overlay" ng-show="loadingInfo">
+            <div class="msg">
+                <span>
+                    Загрузка данных...
+                    <i class="fa fa-spinner fa-spin"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div style="float: right; clear: both;">
+        <button class="btn btn-success" uib-tooltip="Добавить альбом" tooltip-placement="left" ng-click="openModalAddAlbum(null)">Новый альбом</button>
+    </div>
+
+</div>
