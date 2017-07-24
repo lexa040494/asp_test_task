@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using BllLayer.Interfaces;
 using DalLayer.Factory.Interfaces;
+using Model;
+using ViewModel.Models;
 
 namespace BllLayer.Repositories
 {

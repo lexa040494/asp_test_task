@@ -10,5 +10,6 @@ namespace BllLayer.Interfaces
     public interface IAlbumBll
     {
         List<AlbumDto> GetAllAlbums();
+        void SaveAlbum(AlbumDto albumDto);
     }
 }

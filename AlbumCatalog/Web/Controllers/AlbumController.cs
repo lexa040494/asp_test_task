@@ -14,6 +14,7 @@ namespace Web.Controllers
     public class AlbumController : BaseApiController
     {
         private readonly IAlbumBll _albumBll;
+        private readonly ITrackBll _trackBll;
 
         public AlbumController(IBllFactory bllFactory)
         {
@@ -22,6 +23,7 @@ namespace Web.Controllers
                 throw new ArgumentNullException("factoryBll");
             }
             _albumBll = bllFactory.AlbumBll;
+            _trackBll = bllFactory.TrackBll;
         }
 
         [HttpGet]
@@ -29,6 +31,12 @@ namespace Web.Controllers
         {
             var albumList = _albumBll.GetAllAlbums();
             return albumList;
+        }
+
+        [HttpPost]
+        public void Post(AlbumDto album)
+        {
+            _albumBll.SaveAlbum(album);
         }
     }
 }

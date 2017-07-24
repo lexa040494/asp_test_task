@@ -24,5 +24,11 @@ namespace BllLayer.Repositories
         {
             return Mapper.Map<List<Album>, List<AlbumDto>>(_dalFactory.AlbumDal.GetAll().ToList());
         }
+
+        public void SaveAlbum(AlbumDto albumDto)
+        {
+            var album = Mapper.Map<AlbumDto, Album>(albumDto);
+            _dalFactory.AlbumDal.AddWithReturn(album);
+        }
     }
 }

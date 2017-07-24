@@ -84,6 +84,61 @@
 
         $scope.GetAllAlbums();
 
+        $scope.openModalAddAlbum = function () {
+            $uibModal.open({
+                templateUrl: function () { return 'Angular/catalog/album/modal/newAlbum.html?' + new Date() },
+                size: 'md',
+                scope: $scope,
+                controller: [
+                    '$rootScope', '$scope', '$uibModalInstance', function ($rootScope, $scope, $uibModalInstance) {
+                        $scope.currentAlbum = {
+                            Name: '',
+                            Year: '',
+                            Tracks: [
+                                {
+                                    Name: '',
+                                    Artist: '',
+                                    Duration: ''
+                                }
+                            ]
+                        };
+
+                        $scope.newTrack = function() {
+                            $scope.currentAlbum.Tracks.push({
+                                name: '',
+                                artist: '',
+                                duration: ''
+                            });
+                        };
+
+                        $scope.removeTrack = function(itemToAdd) {
+                            var index = $scope.currentAlbum.tracks.indexOf(itemToAdd);
+
+                            $scope.currentAlbum.tracks.splice(index, 1);
+                        };
+
+                        $scope.canselModal = function () {
+                            $uibModalInstance.dismiss({ $value: 'cancel' });
+                        };
+
+                        $scope.saveAlbum = function () {
+                            $uibModalInstance.close($scope.currentAlbum);
+                        };
+                    }
+                ]
+            }).result.then(function (result) {
+                albumService.SaveAlbum(result).then(function () {
+                    $scope.gridAlbum.data.push(result);
+                    $rootScope.toaster('success', 'Новый альбом был успешно добавлен.', 4000);
+                }, function (errorObject) {
+                    $rootScope.toaster('error', errorObject.ExceptionMessage, 4000);
+                }).finally(function () {
+                    $scope.loadingInfo = false;
+                    $scope.currentAlbum = {};
+                });
+            });
+        };
+
     };
 
     // register your controller into a dependent module 
