@@ -1,5 +1,5 @@
 ﻿<div class="portlet">
-    <div id="portlet" class="portlet-content" ui-grid-auto-resize ui-grid-expandable style="max-height: 500px" ui-grid="gridAlbum">
+    <div id="portlet" class="portlet-content" ui-grid-auto-resize ui-grid-expandable style="min-height: 500px" ui-grid="gridAlbum">
         <div class="grid-msg-overlay" ng-show="loadingInfo">
             <div class="msg">
                 <span>
@@ -10,7 +10,7 @@
         </div>
     </div>
     <div style="float: right; clear: both;">
-        <button class="btn btn-success" uib-tooltip="Добавить альбом" tooltip-placement="left" ng-click="openModalAddAlbum(null)">Новый альбом</button>
+        <button class="btn btn-success" uib-tooltip="Добавить альбом" tooltip-placement="left" ng-click="openModalAddEditAlbum(null)">Новый альбом</button>
     </div>
 
 </div>

@@ -35,6 +35,14 @@
                     displayName: 'Год выпуска',
                     headerTooltip: true,
                     enableFiltering: false
+                },
+                {
+                    field: 'EditDeleteAlbum',
+                    displayName: '',
+                    width: '5%',
+                    headerTooltip: true,
+                    enableFiltering: false,
+                    cellTemplate: 'Angular/catalog/album/template/editDeleteAlbum.html',
                 }
             ],
             onRegisterApi: function (gridApi) {
@@ -84,24 +92,36 @@
 
         $scope.GetAllAlbums();
 
-        $scope.openModalAddAlbum = function () {
+        $scope.openModalAddEditAlbum = function (album) {
             $uibModal.open({
                 templateUrl: function () { return 'Angular/catalog/album/modal/newAlbum.html?' + new Date() },
                 size: 'md',
                 scope: $scope,
                 controller: [
                     '$rootScope', '$scope', '$uibModalInstance', function ($rootScope, $scope, $uibModalInstance) {
-                        $scope.currentAlbum = {
-                            Name: '',
-                            Year: '',
-                            Tracks: [
-                                {
-                                    Name: '',
-                                    Artist: '',
-                                    Duration: ''
-                                }
-                            ]
-                        };
+                        $scope.currentAlbum = {};
+
+                        if (album == null) {
+                            $scope.modalTitle = 'Создание нового альбома';
+                            $scope.currentAlbum = {
+                                Name: '',
+                                Year: '',
+                                Tracks: [
+                                    {
+                                        Name: '',
+                                        Artist: '',
+                                        Duration: ''
+                                    }
+                                ]
+                            };
+                        } else {
+                            $scope.modalTitle = 'Редактирование альбома';
+                            $scope.currentAlbum = angular.copy(album);
+                            $scope.currentAlbum.Tracks.forEach(function(item) {
+                                item.Duration = new Date(new Date() + item.Duration);
+                            });
+                        }
+                        
 
                         $scope.newTrack = function() {
                             $scope.currentAlbum.Tracks.push({
@@ -112,9 +132,9 @@
                         };
 
                         $scope.removeTrack = function(itemToAdd) {
-                            var index = $scope.currentAlbum.tracks.indexOf(itemToAdd);
+                            var index = $scope.currentAlbum.Tracks.indexOf(itemToAdd);
 
-                            $scope.currentAlbum.tracks.splice(index, 1);
+                            $scope.currentAlbum.Tracks.splice(index, 1);
                         };
 
                         $scope.canselModal = function () {
@@ -127,15 +147,32 @@
                     }
                 ]
             }).result.then(function (result) {
-                albumService.SaveAlbum(result).then(function () {
-                    $scope.gridAlbum.data.push(result);
-                    $rootScope.toaster('success', 'Новый альбом был успешно добавлен.', 4000);
-                }, function (errorObject) {
-                    $rootScope.toaster('error', errorObject.ExceptionMessage, 4000);
-                }).finally(function () {
-                    $scope.loadingInfo = false;
-                    $scope.currentAlbum = {};
-                });
+                if (album == null) {
+                    albumService.AddAlbum(result).then(function() {
+                        $scope.gridAlbum.data.push(result);
+                        $rootScope.toaster('success', 'Новый альбом был успешно добавлен.', 4000);
+                    }, function(errorObject) {
+                        $rootScope.toaster('error', errorObject.ExceptionMessage, 4000);
+                    }).finally(function() {
+                        $scope.loadingInfo = false;
+                        $scope.currentAlbum = {};
+                    });
+                } else {
+                    albumService.EditAlbum(result).then(function () {
+                        var index = $scope.gridAlbum.data.findIndex(function (element, index, array) {
+                            if (element.Id == result.Id)
+                                return true;
+                            return false;
+                        });
+                        $scope.gridAlbum.data[index] = result;
+                        $rootScope.toaster('success', 'Альбом был успешно обновлен.', 4000);
+                    }, function (errorObject) {
+                        $rootScope.toaster('error', errorObject.ExceptionMessage, 4000);
+                    }).finally(function () {
+                        $scope.loadingInfo = false;
+                        $scope.currentAlbum = {};
+                    });
+                }
             });
         };
 

@@ -11,5 +11,6 @@ namespace BllLayer.Interfaces
     {
         List<AlbumDto> GetAllAlbums();
         void SaveAlbum(AlbumDto albumDto);
+        void UpdateAlbum(AlbumDto albumDto);
     }
 }

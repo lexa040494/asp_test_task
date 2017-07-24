@@ -50,3 +50,10 @@ textarea {
     display: table-cell;
     vertical-align: middle;
 }
+
+.btn-my {
+    width: 24px;
+    height: 24px;
+    margin: 0px;
+    padding: 0px;
+}

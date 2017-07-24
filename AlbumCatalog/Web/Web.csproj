@@ -202,6 +202,7 @@
     <Content Include="Angular\catalog\album\albumController.js" />
     <Content Include="Angular\catalog\album\albumService.js" />
     <Content Include="Angular\catalog\album\modal\newAlbum.html" />
+    <Content Include="Angular\catalog\album\template\editDeleteAlbum.html" />
     <Content Include="Angular\catalog\album\template\expandableGrid.html" />
     <Content Include="Angular\services\loadingService.js" />
     <Content Include="App_Data\AlbumCatalogDb.mdf" />

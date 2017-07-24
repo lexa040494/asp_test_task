@@ -18,7 +18,7 @@
 
         };
 
-        service.SaveAlbum = function (album) {
+        service.AddAlbum = function (album) {
             var deferred = $q.defer();
 
             album.Tracks.forEach(function(item) {
@@ -35,6 +35,28 @@
             return deferred.promise;
 
         };
+
+        service.EditAlbum = function (album) {
+            var deferred = $q.defer();
+
+            album.Tracks.forEach(function (item) {
+                if (item.Duration != null) {
+                    item.Duration = item.Duration.toLocaleTimeString();
+                    item.AlbumId = album.Id;
+                }
+            });
+
+            $http.put('api/album', album)
+           .then(function (response) {
+               deferred.resolve(response.data);
+           }).catch(function onError(response) {
+               deferred.reject(response.data);
+           });
+
+            return deferred.promise;
+
+        };
+
 
         return service;
     };

@@ -30,5 +30,23 @@ namespace BllLayer.Repositories
             var album = Mapper.Map<AlbumDto, Album>(albumDto);
             _dalFactory.AlbumDal.AddWithReturn(album);
         }
+
+        public void UpdateAlbum(AlbumDto albumDto)
+        {
+            var album = Mapper.Map<AlbumDto, Album>(albumDto);
+            var albumFromDb = _dalFactory.AlbumDal.GetById(album.Id);
+
+            var listForAdd = album.Track.Where(p => albumFromDb.Track.All(l => p.Id != l.Id)).ToList();
+
+            var listForDelete = albumFromDb.Track.Where(p => album.Track.All(l => p.Id != l.Id)).ToList();
+
+            var listForUpdate = album.Track.Where(p => albumFromDb.Track.Any(l => p.Id == l.Id)).ToList();
+
+            listForAdd.ForEach(x=>_dalFactory.TrackDal.AddWithReturn(x));
+            listForDelete.ForEach(x => _dalFactory.TrackDal.Delete(x));
+            listForUpdate.ForEach(x => _dalFactory.TrackDal.UpdateVoid(x, x.Id));
+
+            _dalFactory.AlbumDal.UpdateVoid(album,album.Id);
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace DalLayer.GenericRepository.Repositories
             return _dbSet;
         }
 
-        public T GetById(int id)
+        public T GetById(decimal id)
         {
             return _dbSet.Find(id);
         }

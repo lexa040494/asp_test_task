@@ -10,7 +10,7 @@ namespace DalLayer.GenericRepository.Interfaces
     {
         IQueryable<T> GetAll();
 
-        T GetById(int id);
+        T GetById(decimal id);
 
         T AddWithReturn(T entity, bool isSave = true);
 
